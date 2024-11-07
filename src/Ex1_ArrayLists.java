@@ -34,6 +34,8 @@ public class Ex1_ArrayLists {
 
         }
 
+        System.out.println("hi");
+
     }
 
 }
