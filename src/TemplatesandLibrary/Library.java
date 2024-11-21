@@ -1,3 +1,5 @@
+package TemplatesandLibrary;
+
 import java.util.Scanner;
 
 public class Library {

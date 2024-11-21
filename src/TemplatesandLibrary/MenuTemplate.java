@@ -1,3 +1,7 @@
+package TemplatesandLibrary;
+
+import TemplatesandLibrary.Library;
+
 public class MenuTemplate {
     public static void run() {
 
@@ -30,4 +34,4 @@ public class MenuTemplate {
         System.out.println("Good bye");
 
     }//run
-}//MenuTemplate
+}//TemplatesandLibrary.MenuTemplate

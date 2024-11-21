@@ -1,3 +1,5 @@
+package TemplatesandLibrary;
+
 public class Search {
 
     public static int linearSearch (String[] arr, String searchTerm){
