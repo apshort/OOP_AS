@@ -18,6 +18,14 @@ public class Ex3_Client {
         outstandingFees = 0;
     }
 
+    public Ex3_Client(String n, String a, int s, boolean d, double f){
+        name = n;
+        address = a;
+        lawnSize = s;
+        hasDog = d;
+        outstandingFees = f;
+    }
+
     //instance methods
     public String toString(){
         return name + "  " + address + "  " + lawnSize + "  " + hasDog + "  " + outstandingFees;
@@ -51,6 +59,22 @@ public class Ex3_Client {
 
     public String getName() {
         return name;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public int getLawnSize() {
+        return lawnSize;
+    }
+
+    public boolean isHasDog() {
+        return hasDog;
+    }
+
+    public double getOutstandingFees() {
+        return outstandingFees;
     }
 
     public void delinquent(){

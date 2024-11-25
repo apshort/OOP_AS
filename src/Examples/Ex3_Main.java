@@ -2,12 +2,15 @@ package Examples;
 
 import java.util.ArrayList;
 import TemplatesandLibrary.Library;
+import java.io.*;
 
 public class Ex3_Main {
 
     public static void run(){
 
         ArrayList<Ex3_Client>allClients = new ArrayList<>();
+
+        loadFile("data/Copy of Lawn ClientData - Sheet1.csv", allClients);
 
         allClients.add(new Ex3_Client("Han Solo", "5 Hoth St", 120, false));
         allClients.add(new Ex3_Client("Yoda", "16 Degobah Swamp", 2000, true));
@@ -75,6 +78,8 @@ public class Ex3_Main {
 
             } else {
 
+                saveFile("data/Copy of Lawn ClientData - Sheet1.csv", allClients);
+
                 break;
             }
         } // while
@@ -93,5 +98,54 @@ public class Ex3_Main {
 
         return -1;
     }//searchByName
+
+    public static void loadFile(String filename, ArrayList<Ex3_Client> list ) {
+
+        try {
+            BufferedReader file = new BufferedReader(new FileReader(filename));
+
+            String dataToRead;
+            while( file.ready()){
+                dataToRead = file.readLine();
+
+                String tempArray[] = dataToRead.split(",");
+//the next line is customized for whatever class you are creating.
+//Here we create a new STUDENT so there are 5 variables
+//Unfortunately, you need to Parse any variable that is not a String.  Integers, doubles and booleans are all demonstrated below.
+                list.add( new Ex3_Client(  tempArray[0],tempArray[1], Integer.parseInt(tempArray[2]),Boolean.parseBoolean(tempArray[3]), Double.parseDouble(tempArray[4])   ));
+
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }//end loadFile
+
+    public static void saveFile(String filename, ArrayList <Ex3_Client> tempList ) {
+        try {
+            PrintWriter file = new PrintWriter(new FileWriter(filename));
+
+            for (int i = 0; i < tempList.size(); i++) {
+//the next lines are customized for whatever data you are getting.
+                String toSave ="";
+                toSave = tempList.get(i).getName();  //assumes getter method are used for private variables
+                toSave +="," + tempList.get(i).getAddress();
+                toSave += "," + tempList.get(i).getLawnSize();
+                toSave +="," + tempList.get(i).isHasDog();
+                toSave +="," + tempList.get(i).getOutstandingFees();
+
+//The above 6 lines could be replaced by a call to a carefully made toString() function
+
+                file.println(toSave);
+
+            }
+            file.close();
+        }
+        catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+
+    }//end saveFile
+
 
 }

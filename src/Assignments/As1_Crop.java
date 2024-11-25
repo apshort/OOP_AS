@@ -17,6 +17,14 @@ public class As1_Crop {
         acres = 0;
     }
 
+    public As1_Crop(String n, double y, String u, double p, int a) {
+        name = n;
+        yield = y;
+        units = u;
+        price = p;
+        acres = a;
+    }
+
     //instance methods
     public String toString(){
         return name + "  " + yield + "  " + units + "  " + price + "  " + acres;
@@ -32,6 +40,22 @@ public class As1_Crop {
 
     public String getName() {
         return name;
+    }
+
+    public double getYield() {
+        return yield;
+    }
+
+    public String getUnits() {
+        return units;
+    }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public int getAcres() {
+        return acres;
     }
 
     public double harvest(){
