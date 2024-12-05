@@ -9,6 +9,7 @@ public class As2_Team {
     private int numLasts;
     private double avgPlacement;
 
+
     public As2_Team (String n, String b, String d, int w, int l, double a){
         nickname = n;
         biome = b;

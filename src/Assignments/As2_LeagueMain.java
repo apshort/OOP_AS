@@ -11,7 +11,18 @@ public class As2_LeagueMain {
     public static void run(){
 
         ArrayList<As2_Team> allTeams= new ArrayList<>();
+//        ArrayList<Integer> allAvgs = loadIntegerList("data/Teams Averages.csv");
         loadFile("data/OOP League Teams.csv", allTeams);
+        ArrayList<As2_Averages> allAverages = new ArrayList<>();
+        loadFileAvg("data/Teams Averages.csv", allAverages);
+//        int[] arr = {1, 2, 3};
+//        allAverages.add(new As2_Averages(arr));
+        System.out.println(allAverages.get(0).getAvgPlacement());
+
+
+//        if (Library.input.nextLine().equalsIgnoreCase("yes")){
+//            saveFileAvg("data/Teams Averages.csv", allAverages);
+//        }
 
         while(true) {
 
@@ -87,9 +98,12 @@ public class As2_LeagueMain {
 //                        lowestIndex = i;
 //                    }
 //                }
+//                while(findHighest(allCoins)!== -1){
+//
+//                }
 //
 //                System.out.println("The " + allTeams.get(highestIndex).getNickname() + " won, and the " + allTeams.get(lowestIndex).getNickname() + " got last place.");
-                MySort.selectionSortIntArr(allCoins);
+//                MySort.selectionSortIntArr(allCoins);
 
             }
             if (choice == 6) {
@@ -103,6 +117,27 @@ public class As2_LeagueMain {
         System.out.println("Good bye");
 
     }//run
+
+    public static int findHighest(int[] arr){
+        int highestIndex = 0;
+                for (int i = 0; i < arr.length; i++) {
+                    if (arr[i] > arr[highestIndex]) {
+                        highestIndex = i;
+                    }
+                }
+                if (highestIndex == 0 && arr[0] == -1){
+                    return -1;
+                }
+                return highestIndex;
+    }
+
+    public static double average(int[] arr){
+        int total = 0;
+        for (int i = 0; i < arr.length; i++) {
+            total += arr[i];
+        }
+        return total/arr.length;
+    }
 
     public static void loadFile(String filename, ArrayList<As2_Team> list ) {
 
@@ -125,6 +160,49 @@ public class As2_LeagueMain {
             System.out.println(e);
         }
     }//end loadFile
+
+    public static void loadFileAvg(String filename, ArrayList<As2_Averages> list ) {
+
+        try {
+            BufferedReader file = new BufferedReader(new FileReader(filename));
+
+            String dataToRead;
+            while( file.ready()){
+                dataToRead = file.readLine();
+
+                String[] tempArray = dataToRead.split(",");
+                ArrayList<Integer> arrayInt = new ArrayList<>();
+                for (int i = 0; i < tempArray.length; i++) {
+                    arrayInt.add(Integer.parseInt(tempArray[i]));
+                }
+//the next line is customized for whatever class you are creating.
+//Here we create a new STUDENT so there are 5 variables
+//Unfortunately, you need to Parse any variable that is not a String.  Integers, doubles and booleans are all demonstrated below.
+                list.add( new As2_Averages(arrayInt));
+
+            }
+        }
+        catch (IOException e) {
+            System.out.println(e);
+        }
+    }//end loadFile
+
+//    public static ArrayList<Integer> loadIntegerList (String filename){
+//        ArrayList<Integer> temp = new ArrayList();
+//        try {
+//            BufferedReader file = new BufferedReader(new FileReader(filename));
+//            while (file.ready()) {
+//                String addLines = file.readLine();
+//                temp.add(Integer.parseInt(addLines));
+//
+//            }//end while
+//            file.close();
+//        } catch (IOException e) {
+//            System.out.println(e);
+//        }
+//        return temp;
+//    }//end loadStringList from a text file
+
 
     public static void saveFile(String filename, ArrayList <As2_Team> tempList ) {
         try {
@@ -153,6 +231,33 @@ public class As2_LeagueMain {
 
     }//end saveFile
 
+    public static void saveFileAvg(String filename, ArrayList <As2_Averages> tempList) {
+        try {
+            PrintWriter file = new PrintWriter(new FileWriter(filename));
+
+            for (int i = 0; i < tempList.size(); i++) {
+//the next lines are customized for whatever data you are getting.
+                String toSave ="";
+                toSave += tempList.get(i).getAverages().get(0);
+                for (int j = 1; j < tempList.get(i).getAverages().size(); j++) {
+                    toSave += "," + tempList.get(i).getAverages().get(j);
+                }
+                  //assumes getter method are used for private variables
+//                toSave +="," + tempList.get(i).getAvgPlacement();
+
+//The above 6 lines could be replaced by a call to a carefully made toString() function
+
+                file.println(toSave);
+
+            }
+            file.close();
+        }
+        catch (IOException ex) {
+            System.out.println(ex.toString());
+        }
+
+    }//end saveFile
+
     public static void selectionSortDoubleArr(ArrayList<As2_Team> arr){
         for(int i=0; i<arr.size()-1; i++){
             int lowestIndex = i;
@@ -161,29 +266,34 @@ public class As2_LeagueMain {
                     lowestIndex = j;
                 }
             }
-            String temp = arr.get(i).getNickname();
-            arr.get(i).setNickname(arr.get(lowestIndex).getNickname());
-            arr.get(lowestIndex).setNickname(temp);
 
-            String temp1 = arr.get(i).getBiome();
-            arr.get(i).setBiome(arr.get(lowestIndex).getBiome());
-            arr.get(lowestIndex).setBiome(temp1);
+            As2_Team tempTeam = arr.get(i);
+            arr.set(i, arr.get(lowestIndex));
+            arr.set(lowestIndex, tempTeam);
 
-            String temp2 = arr.get(i).getDivision();
-            arr.get(i).setDivision(arr.get(lowestIndex).getDivision());
-            arr.get(lowestIndex).setDivision(temp2);
-
-            int temp3 = arr.get(i).getNumWins();
-            arr.get(i).setNumWins(arr.get(lowestIndex).getNumWins());
-            arr.get(lowestIndex).setNumWins(temp3);
-
-            int temp4 = arr.get(i).getNumLasts();
-            arr.get(i).setNumLasts(arr.get(lowestIndex).getNumLasts());
-            arr.get(lowestIndex).setNumLasts(temp4);
-
-            double temp5 = arr.get(i).getAvgPlacement();
-            arr.get(i).setAvgPlacement(arr.get(lowestIndex).getAvgPlacement());
-            arr.get(lowestIndex).setAvgPlacement(temp5);
+//            String temp = arr.get(i).getNickname();
+//            arr.get(i).setNickname(arr.get(lowestIndex).getNickname());
+//            arr.get(lowestIndex).setNickname(temp);
+//
+//            String temp1 = arr.get(i).getBiome();
+//            arr.get(i).setBiome(arr.get(lowestIndex).getBiome());
+//            arr.get(lowestIndex).setBiome(temp1);
+//
+//            String temp2 = arr.get(i).getDivision();
+//            arr.get(i).setDivision(arr.get(lowestIndex).getDivision());
+//            arr.get(lowestIndex).setDivision(temp2);
+//
+//            int temp3 = arr.get(i).getNumWins();
+//            arr.get(i).setNumWins(arr.get(lowestIndex).getNumWins());
+//            arr.get(lowestIndex).setNumWins(temp3);
+//
+//            int temp4 = arr.get(i).getNumLasts();
+//            arr.get(i).setNumLasts(arr.get(lowestIndex).getNumLasts());
+//            arr.get(lowestIndex).setNumLasts(temp4);
+//
+//            double temp5 = arr.get(i).getAvgPlacement();
+//            arr.get(i).setAvgPlacement(arr.get(lowestIndex).getAvgPlacement());
+//            arr.get(lowestIndex).setAvgPlacement(temp5);
 
         }
     }
