@@ -10,6 +10,8 @@ public class As2_LeagueMain {
 
     public static void run(){
 
+        //I DID SOMETHING UNNECESSARILY COMPLICATED WITH THE AVERAGES LOL
+
         ArrayList<As2_Team> allTeams= new ArrayList<>();
 //        ArrayList<Integer> allAvgs = loadIntegerList("data/Teams Averages.csv");
         loadFile("data/OOP League Teams.csv", allTeams);
@@ -17,16 +19,49 @@ public class As2_LeagueMain {
         loadFileAvg("data/Teams Averages.csv", allAverages);
 //        int[] arr = {1, 2, 3};
 //        allAverages.add(new As2_Averages(arr));
-        System.out.println(allAverages.get(0).getAvgPlacement());
+//        System.out.println(allAverages.get(0).getAvgPlacement());
 
 
 //        if (Library.input.nextLine().equalsIgnoreCase("yes")){
 //            saveFileAvg("data/Teams Averages.csv", allAverages);
 //        }
 
+        allTeams.get(0).addPlayer("Phil", "Ph1LzA", 4);
+        allTeams.get(0).addPlayer("Shelby", "Shubble", 4);
+        allTeams.get(0).addPlayer("Alex", "Quackity", 1);
+        allTeams.get(0).addPlayer("Toby", "Tubbo_", 1);
+        allTeams.get(0).addPlayer("Mark", "Ranboo", 1);
+
+        allTeams.get(1).addPlayer("Jack", "JackManifoldTV", 0);
+        allTeams.get(1).addPlayer("Tom", "TommyInnit", 3);
+
+        allTeams.get(2).addPlayer("Alex", "Technoblade", 2);
+        allTeams.get(2).addPlayer("Bek", "bekyamon", 1);
+
+        allTeams.get(3).addPlayer("Aimee", "aimsey", 2);
+        allTeams.get(3).addPlayer("Saoirse", "guqqie", 1);
+
+        allTeams.get(4).addPlayer("Michaela", "DarkEyebrows", 0);
+        allTeams.get(4).addPlayer("Elaina", "ElainaExe", 2);
+
+        allTeams.get(5).addPlayer("Callum", "Seapeekay", 4);
+        allTeams.get(5).addPlayer("Brendan", "Sneegsnag", 3);
+
+        allTeams.get(6).addPlayer("Jordan", "CaptainSparklez", 4);
+        allTeams.get(6).addPlayer("Frank", "fruitberries", 4);
+
+        allTeams.get(7).addPlayer("Scott", "Smajor1995", 7);
+        allTeams.get(7).addPlayer("Cassie", "Snifferish", 2);
+
+        allTeams.get(8).addPlayer("Sam", "GoodTimesWithScar", 2);
+        allTeams.get(8).addPlayer("Taylor", "GeminiTay", 2);
+
+        allTeams.get(9).addPlayer("Grayson", "Purpled", 1);
+        allTeams.get(9).addPlayer("Harvey", "TapL", 1);
+
         while(true) {
 
-            System.out.println("Press 1 to print List of Teams\nPress 2 to find highest and lowest of each statistic\nPress 3 to view division\nPress 4 to sort by average placement.\nPress 5 to update stats\nPress 6 to save and exit");
+            System.out.println("Press 1 to print List of Teams\nPress 2 to find highest and lowest of each statistic\nPress 3 to view division\nPress 4 to sort by average placement.\nPress 5 to update stats\nPress 6 to print players \nPress 7 to see each team's total crowns \nPress 8 to update a player's stats \nPress 9 to save and exit");
 
             // int choice = 2;//to be removed
             int choice = Library.input.nextInt();
@@ -82,11 +117,20 @@ public class As2_LeagueMain {
                 System.out.println("Sorted");
             }
             if (choice == 5) {
-                int[] allCoins = new int[allTeams.size()];
+//                int[] allCoins = new int[allTeams.size()];
                 for (int i = 0; i < allTeams.size(); i++) {
-                    System.out.println("How many coins did the " + allTeams.get(i).getNickname() + " receive the last game?");
-                    allCoins[i] = Library.input.nextInt();
+                    System.out.println("What place did the " + allTeams.get(i).getNickname() + " achieve the last game?");
+                    int place = Library.input.nextInt();
                     Library.input.nextLine();
+                    allAverages.get(i).getAverages().add(place);
+                    allTeams.get(i).setAvgPlacement(allAverages.get(i).average());
+                    if (place == 1){
+                        allTeams.get(i).setNumWins(allTeams.get(i).getNumWins()+1);
+                    }
+                    else if (place == 10){
+                        allTeams.get(i).setNumLasts(allTeams.get(i).getNumLasts()+1);
+                    }
+
                 }
 //                int highestIndex = 0;
 //                int lowestIndex = 0;
@@ -106,8 +150,33 @@ public class As2_LeagueMain {
 //                MySort.selectionSortIntArr(allCoins);
 
             }
-            if (choice == 6) {
+            if (choice == 6){
+                System.out.println("What team's players do you want to print?");
+                String team = Library.input.nextLine();
+                for (int i = 0; i < allTeams.size(); i++) {
+                    if (allTeams.get(i).getNickname().equalsIgnoreCase(team)){
+                        allTeams.get(i).printMyPlayers();
+                    }
+                }
+            }
+            if (choice == 7){
+                for(As2_Team team : allTeams){
+                    System.out.println("Team " + team.getNickname() + " has " + team.totalCrowns() + " total crowns.");
+                }
+            }
+            if (choice == 8){
+                System.out.println("What player's stats do you want to update? (type in their player ID)");
+                String player = Library.input.nextLine();
+                for (int i = 0; i < allTeams.size(); i++) {
+                    int foundIndex = allTeams.get(i).searchByName(allTeams.get(i).getAllPlayers(), player);
+                    if(foundIndex != -1) {
+                        allTeams.get(i).getAllPlayers().get(foundIndex).addOneCrown();
+                    }
+                }
+            }
+            if (choice == 9) {
                 saveFile("data/OOP League Teams.csv", allTeams);
+                saveFileAvg("data/Teams Averages.csv", allAverages);
                 break;
             }
             System.out.println();

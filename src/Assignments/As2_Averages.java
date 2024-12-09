@@ -19,6 +19,14 @@ public class As2_Averages {
 
     }
 
+    public double average(){
+        double total = 0;
+        for (int i = 0; i < averages.size(); i++) {
+            total += averages.get(i);
+        }
+        return total/averages.size();
+    }
+
     public double getAvgPlacement() {
         return avgPlacement;
     }
@@ -26,4 +34,5 @@ public class As2_Averages {
     public ArrayList<Integer> getAverages() {
         return averages;
     }
+
 }
